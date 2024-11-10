@@ -61,7 +61,7 @@ class CommonCrawlProcessor:
         self.__process_warc_file()
     
     def get_extracted_urls(self):
-        return len(self.__extracted_urls)
+        return self.__extracted_urls
 
 
 # # Sample dataset generation script
