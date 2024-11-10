@@ -2,12 +2,14 @@ import os
 import numpy as np
 import pandas as pd
 import requests
+import joblib
 from typing import Optional
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from common_crawl_processor import CommonCrawlProcessor
+from google.cloud import storage
 
 
 def fetch_feature_values(url) -> Optional[dict]:
@@ -162,12 +164,29 @@ def plot_decision_boundary(X, y, model, title="SVM Decision Boundary"):
     plt.ylabel("Feature 2 (TLD_ANLYSIS_SCORE)")
     plt.show()
 
+def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
+    """Uploads a file to the specified Google Cloud Storage bucket."""
+    # Initialize a storage client
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+    # Upload the file
+    blob.upload_from_filename(source_file_name)
+    print(f"File {source_file_name} uploaded to {destination_blob_name}.")
+
 if __name__ == "__main__":
     # Generate working dataset
     X, y = generate_data_from_common_crawl()
 
     # Train and evaluate the SVM model
     model, X_test, y_test = define_and_train_svm(X, y)
+
+    # Save the model to a pickle file
+    model_filename = "svm_model_v0.pkl"
+    joblib.dump(model, model_filename)
+    # Specify your bucket name and upload the file
+    bucket_name = "surf-shelter-model-v0"
+    upload_to_gcs(bucket_name, model_filename, "models/svm_model_v0.pkl")
 
     # Plot decision boundary using the first two features
     plot_decision_boundary(X_test, y_test, model)

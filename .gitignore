@@ -4,6 +4,7 @@ pyenv/
 # Python cache files
 __pycache__/
 *.pyc
+*.pkl
 
 # Environment variables
 .env
