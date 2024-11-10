@@ -8,12 +8,6 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
-import joblib
-from typing import Optional
-from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, classification_report
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
 from common_crawl_processor import CommonCrawlProcessor
 from google.cloud import storage
 
@@ -183,3 +177,12 @@ def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
 if __name__ == "__main__":
     # Generate working dataset
     X, y = generate_data_from_common_crawl()
+    # Train and evaluate the SVM model
+    model, X_test, y_test = define_and_train_svm(X, y)
+    # Save the model to a pickle file
+    model_filename = "svm_model-v0.pkl"
+    joblib.dump(model, model_filename)
+    bucket_name = "surf-shelter-model-v0"
+    upload_to_gcs(bucket_name, model_filename, "models/svm_model_v0.pkl")
+    # Plot decision boundary using the first two features
+    plot_decision_boundary(X_test, y_test, model)
