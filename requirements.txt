@@ -6,3 +6,4 @@ scikit-learn
 matplotlib
 google-cloud-storage
 warcio
+python-dotenv

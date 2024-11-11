@@ -4,6 +4,7 @@ import pandas as pd
 import requests
 import joblib
 from typing import Optional
+from dotenv import load_dotenv
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
@@ -11,6 +12,7 @@ import matplotlib.pyplot as plt
 from common_crawl_processor import CommonCrawlProcessor
 from google.cloud import storage
 
+load_dotenv()
 
 def fetch_feature_values(url) -> Optional[dict]:
     """Fetch feature values for a given URL from different API endpoints provided by the Features Processor Engine.

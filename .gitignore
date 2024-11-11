@@ -6,8 +6,10 @@ __pycache__/
 *.pyc
 *.pkl
 
-# Environment variables
+# Environment variables and credentials
 .env
+*.env
+surf-shelter-model-processor-credential.json
 
 # Any unnecassary large files
 *.warc.gz
