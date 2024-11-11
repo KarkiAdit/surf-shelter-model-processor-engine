@@ -146,7 +146,7 @@ def define_and_train_svm(X, y):
     # Return trained model and test data for visualization
     return model, X_test, y_test
 
-def plot_decision_boundary(X, y, model, title="SVM Decision Boundary"):
+def plot_decision_boundary(X, y, model, title="SVM Decision Boundary", save_path=None):
     # Use only the first two features for visualization
     X = X.iloc[:, :2].values  # Convert to Numpy for plotting
     model.fit(X, y)
@@ -164,7 +164,12 @@ def plot_decision_boundary(X, y, model, title="SVM Decision Boundary"):
     plt.title(title)
     plt.xlabel("Feature 1 (URL_LENGTH)")
     plt.ylabel("Feature 2 (TLD_ANLYSIS_SCORE)")
-    plt.show()
+    if save_path:
+        # Save the plot as a file instead of displaying it
+        plt.savefig(save_path)
+        print(f"Decision boundary plot saved to {save_path}")
+    else:
+        plt.show()
 
 def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
     """Uploads a file to the specified Google Cloud Storage bucket."""
@@ -186,5 +191,8 @@ if __name__ == "__main__":
     joblib.dump(model, model_filename)
     bucket_name = "surf-shelter-model-v0"
     upload_to_gcs(bucket_name, model_filename, "models/svm_model_v0.pkl")
-    # Plot decision boundary using the first two features
-    plot_decision_boundary(X_test, y_test, model)
+    # Plot decision boundary using the first two features and save it as an image
+    plot_filename = "decision_boundary_plot_v0.png"
+    plot_decision_boundary(X_test, y_test, model, save_path=plot_filename)
+    # Upload the plot image to GCS under the "plots" directory within the bucket
+    upload_to_gcs(bucket_name, plot_filename, f"plots/{plot_filename}")
