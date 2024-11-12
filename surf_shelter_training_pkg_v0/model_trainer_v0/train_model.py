@@ -9,7 +9,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
-from common_crawl_processor import CommonCrawlProcessor
+from model_trainer_v0.common_crawl_processor import CommonCrawlProcessor
 from google.cloud import storage
 
 load_dotenv()
@@ -195,4 +195,4 @@ if __name__ == "__main__":
     plot_filename = "decision_boundary_plot_v0.png"
     plot_decision_boundary(X_test, y_test, model, save_path=plot_filename)
     # Upload the plot image to GCS under the "plots" directory within the bucket
-    upload_to_gcs(bucket_name, plot_filename, f"plots/{plot_filename}")
+    upload_to_gcs(bucket_name, plot_filename, "plots/decision_boundary_plot_v0.png")

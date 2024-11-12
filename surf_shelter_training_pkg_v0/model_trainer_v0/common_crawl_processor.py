@@ -6,35 +6,34 @@ from warcio.archiveiterator import ArchiveIterator
 class CommonCrawlProcessor:
     def __init__(self, warc_paths_file, output_file="sample-v01.warc.gz"):
         """
-        Initializes the processor with a WARC paths file and an optional output filename.
-        Attributes include the first WARC file URL for processing, the output file path, 
-        and a list to store extracted URLs during processing.
+        Initializes the processor with a file containing WARC paths and an optional output filename.
+        Sets up the first two WARC file URLs for processing, the output file path, and a list for storing extracted URLs.
         """
         with gzip.open(warc_paths_file, 'rt') as f:
             self.__warc_paths = f.readlines()
-        # Use the first WARC file URL for Model v.0.1
-        self.__warc_url = f"https://data.commoncrawl.org/{self.__warc_paths[0].strip()}"
+        # Use the first two WARC file URLs for Model v.0.1
+        self.__chosen_warc_urls = [
+            f"https://data.commoncrawl.org/{self.__warc_paths[0].strip()}",
+            f"https://data.commoncrawl.org/{self.__warc_paths[1].strip()}",
+        ]
         self.__output_file = output_file
         self.__extracted_urls = []
 
-    def __download_warc_file(self):
+
+    def __download_warc_file(self, warc_url):
         """
-        Downloads the WARC file and saves it locally. If the output file already exists, 
-        the download is skipped and the function returns immediately.
+        Downloads the specified WARC file and saves it locally in append mode. 
+        If the output file already exists, the download is skipped, and the function exits.
         """
-        # Check if the output file already exists
-        if os.path.exists(self.__output_file):
-            print(f"File '{self.__output_file}' already exists. Skipping download.")
-            return
-        print(f"Downloading WARC file from {self.__warc_url}...")
-        response = requests.get(self.__warc_url, stream=True)
+        print(f"Downloading WARC file from {warc_url}...")
+        response = requests.get(warc_url, stream=True)
         # Download the file with chunked writing
-        with open(self.__output_file, "wb") as file:
+        with open(self.__output_file, "ab") as file:
             for chunk in response.iter_content(chunk_size=1024):
                 file.write(chunk)
-        print(f"Downloaded WARC file to {self.__output_file}")
+        print(f"Downloaded a WARC URL to {self.__output_file}")
 
-    def __process_warc_file(self):
+    def __process_output_file(self):
         """
         Processes the WARC file by reading and printing URLs and content of HTTP responses.
         """
@@ -52,13 +51,12 @@ class CommonCrawlProcessor:
 
     def download_and_process(self):
         """
-        Downloads and processes the WARC file.
-        
-        This method combines the download and processing steps to provide 
-        a streamlined workflow for handling Common Crawl data.
+        Downloads and processes the selected WARC files. 
+        This method integrates both steps to streamline handling of Common Crawl data.
         """
-        self.__download_warc_file()
-        self.__process_warc_file()
+        for warc_url in self.__chosen_warc_urls:
+            self.__download_warc_file(warc_url)
+        self.__process_output_file()
     
     def get_extracted_urls(self):
         return self.__extracted_urls

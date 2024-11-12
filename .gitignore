@@ -11,5 +11,9 @@ __pycache__/
 *.env
 surf-shelter-model-processor-credential.json
 
+# Ignore distribution directories and egg-info files generated during packaging
+*.dist/
+*.egg-info/
+
 # Any unnecassary large files
 *.warc.gz
