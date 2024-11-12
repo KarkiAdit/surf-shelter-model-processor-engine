@@ -7,3 +7,4 @@ matplotlib
 google-cloud-storage
 warcio
 python-dotenv
+google-cloud-aiplatform
