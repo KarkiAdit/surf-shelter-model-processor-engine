@@ -7,12 +7,15 @@ __pycache__/
 *.pkl
 
 # Environment variables and credentials
-.env
 *.env
 surf-shelter-model-processor-credential.json
 
 # Ignore distribution directories and egg-info files generated during packaging
+<<<<<<< HEAD
 *.dist/
+=======
+dist/
+>>>>>>> 5cdceda (Update .gitignore to stop tracking dist directory and .tar.gz files)
 *.egg-info/
 
 # Any unnecassary large files
