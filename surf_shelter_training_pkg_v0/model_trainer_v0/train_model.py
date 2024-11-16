@@ -113,7 +113,7 @@ def generate_data_from_common_crawl(num_samples=1000):
             'time_to_live': np.random.randint(1, 3600),
             'domain_age': np.random.randint(1, 5000),
             'reputation_score': np.random.random(),
-            'is_malicious': np.random.choice([True, False]),
+            'is_malicious': np.random.choice([False, True], p=[0.8, 0.2]),
             'is_click_fraud': np.random.choice([True, False]),
             'is_pay_fraud': np.random.choice([True, False])
         }
