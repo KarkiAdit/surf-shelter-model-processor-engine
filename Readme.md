@@ -57,19 +57,16 @@ gcloud config set project [YOUR_PROJECT_ID]
 Create a Google Cloud Storage bucket:
 
 ```bash
-Copy code
 gcloud storage buckets create gs://[YOUR_BUCKET_NAME] --location=[YOUR_REGION]
 ```
 
 ### 3. Build and Upload Training Module
 1. Build the distributable package:
 ```bash
-Copy code
 python setup.py sdist bdist_wheel
 ```
 2. Upload the package to the scripts/ directory in the GCS bucket:
 ```bash
-Copy code
 gcloud storage cp dist/[YOUR_PACKAGE_NAME].tar.gz gs://[YOUR_BUCKET_NAME]/scripts/
 ```
 
@@ -77,7 +74,6 @@ gcloud storage cp dist/[YOUR_PACKAGE_NAME].tar.gz gs://[YOUR_BUCKET_NAME]/script
 Create a Vertex AI custom training job:
 
 ```bash
-Copy code
 gcloud ai custom-jobs create \
   --display-name="[YOUR_JOB_NAME]" \
   --python-package-uris=gs://[YOUR_BUCKET_NAME]/scripts/[YOUR_PACKAGE_NAME].tar.gz \
@@ -90,7 +86,6 @@ gcloud ai custom-jobs create \
 Deploy a Cloud Function to trigger periodic model training:
 
 ```bash
-Copy code
 gcloud functions deploy [YOUR_FUNCTION_NAME] \
   --runtime=python39 \
   --trigger-http \
@@ -112,6 +107,6 @@ gcloud functions deploy [YOUR_FUNCTION_NAME] \
 
 ## Acknowledgments
 
-- [Google Cloud CLI Documentation](https://cloud.google.com/sdk/docs)
-- [Vertex AI Documentation](https://cloud.google.com/vertex-ai/docs)
-- [scikit-learn Documentation](https://scikit-learn.org/stable/)
+[Google Cloud CLI Documentation](https://cloud.google.com/sdk/docs). 
+[Vertex AI Documentation](https://cloud.google.com/vertex-ai/docs). 
+[scikit-learn Documentation](https://scikit-learn.org/stable/). 
