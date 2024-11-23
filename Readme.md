@@ -4,7 +4,7 @@ The Surf Shelter Model Processor Engine is an autonomous system for training sup
 
 ## Overview
 
-The Model Processor currently leverages **2000 URLs** from the [Amazon Common Crawl](https://commoncrawl.org/) Dataset's first WARC path and utilizes eight numerical features from the Features Processor Engine to build and train an SVM classifier.
+The Model Processor currently leverages **2000 URLs** from the [Amazon Common Crawl](https://commoncrawl.org/) Dataset's first WARC path and utilizes eight numerical features from the [Features Processor Engine](https://github.com/KarkiAdit/surf-shelter-data-server-engine/tree/master/features-processor-engine) to build and train an SVM classifier.
 
 The engine is designed to integrate with large-scale web data pipelines, including but not limited to metadata and scripts of websites, far surpassing Common Crawl's billions of URLs. By leveraging big data, it aims to build an intelligent filtration system for identifying click fraud, pay fraud, and other malicious activities on the internet through the analysis of web patterns and metadata.
 
@@ -107,6 +107,6 @@ gcloud functions deploy [YOUR_FUNCTION_NAME] \
 
 ## Acknowledgments
 
-[Google Cloud CLI Documentation](https://cloud.google.com/sdk/docs). 
-[Vertex AI Documentation](https://cloud.google.com/vertex-ai/docs). 
-[scikit-learn Documentation](https://scikit-learn.org/stable/). 
+[Google Cloud CLI Documentation](https://cloud.google.com/sdk/docs)<br>
+[Vertex AI Documentation](https://cloud.google.com/vertex-ai/docs)<br>
+[scikit-learn Documentation](https://scikit-learn.org/stable/)<br>
